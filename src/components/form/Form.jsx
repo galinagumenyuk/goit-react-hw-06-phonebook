@@ -3,7 +3,7 @@ import { AddButton } from "./Form.styled";
 import { connect } from "react-redux";
 import actions from "../../redux/actions";
 
-function Form({onSubmit, onValidate}) {
+function Form({onSubmit, contacts}) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
@@ -22,22 +22,20 @@ function Form({onSubmit, onValidate}) {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
+    if (contacts.find(contact => contact.name === name)) {
+      alert(`Contact ${name} is already exists`)
+      setName("");
+      setNumber("");
+      return;
+    }
     onSubmit(name, number);
     setName("");
     setNumber("");
   };
-
-  // const disabledButton = () => {
-  //   if (!onValidate(name)) {
-  //     alert(`${name} is already in contacts`);
-  //     setName("");
-  //     setNumber("");
-  //   }
-  // }; ---- второй пропс в форм onChange={disabledButton}
-   
+  
 
   return (
-    <form onSubmit={onHandleSubmit} >
+    <form onSubmit={onHandleSubmit} contacts={contacts}>
       <label>
         name
         <input
@@ -66,10 +64,12 @@ function Form({onSubmit, onValidate}) {
     </form>
   );
 }
- 
 
 
 const mapDispatchToProps = dispatch => ({
-  onSubmit: ( name, number) => dispatch(actions.addContact( name, number))
+  onSubmit: (name, number) => dispatch(actions.addContact(name, number)),
 })
-export default connect(null, mapDispatchToProps)(Form);
+
+const mapStateToProps = (state) => ({contacts: state.contacts.items})
+
+export default connect( mapStateToProps, mapDispatchToProps)(Form);
