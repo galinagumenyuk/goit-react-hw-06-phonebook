@@ -1,63 +1,32 @@
 import { Container, ListTitle } from "./App.styled";
-import shortid from "shortid";
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
 import Form from "./components/form/Form.jsx";
 import Contacts from "./components/contacts/Contacts.jsx";
 import Filter from "./components/filter/Filter.jsx";
 
 export default function App() {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem("contacts")) ?? []
-  );
-  const [filter, setFilter] = useState("");
+  // const [contacts, setContacts] = useState(
+  //   JSON.parse(localStorage.getItem("contacts")) ?? []
+  // );
 
-  const addContact = ({ name, number }) => {
-    const contact = {
-      id: shortid.generate(),
-      name,
-      number,
-    };
-    setContacts((prevState) => [contact, ...prevState]);
-  };
+  // useEffect(() => {
+  //   localStorage.setItem("contacts", JSON.stringify(contacts));
+  // }, [contacts]);
 
-  const handleFilterChange = (e) => {
-    setFilter(e.currentTarget.value);
-  };
-
-  const getFilteredContact = () => {
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
-  const filteredContacts = getFilteredContact();
-
-  const deleteContact = (contactId) => {
-    setContacts((prevState) =>
-      prevState.filter((contact) => contact.id !== contactId)
-    );
-  };
-
-  const validateContact = (contactName) => {
-    let isDuplicate = !!contacts.find(
-      (contact) => contact.name === contactName
-    );
-    return !isDuplicate;
-  };
-
-  useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+  // const validateContact = (contactName) => {
+  //   let isDuplicate = !!state.contacts.item.find(
+  //     (contact) => contact.name === contactName
+  //   );
+  //   return !isDuplicate;
+  // }; ----- шло пропсом в форму
 
   return (
     <Container>
       <h1>Phonebook</h1>
-      <Form onSubmit={addContact} onValidate={validateContact} />
+      <Form />
       <ListTitle>Contacts</ListTitle>
-      <Filter value={filter} onChange={handleFilterChange} />
-      <Contacts contacts={filteredContacts} onDeleteContact={deleteContact} />
+      <Filter />
+      <Contacts />
     </Container>
   );
 }

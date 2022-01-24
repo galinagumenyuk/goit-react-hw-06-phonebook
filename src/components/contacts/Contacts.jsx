@@ -1,5 +1,7 @@
 import React from "react";
 import { ContactItem, DeleteButton, Contact } from "./Contacts.styled";
+import { connect } from "react-redux";
+import actions from "../../redux/actions";
 
 const Contacts = ({ contacts, onDeleteContact }) => {
   return (
@@ -20,4 +22,17 @@ const Contacts = ({ contacts, onDeleteContact }) => {
   );
 };
 
-export default Contacts;
+const mapStateToProps = state => {
+  // const { filter, items } = state.contacts;
+  // const normalizedFilter = filter.toLowerCase();
+  // const filteredContacts = items.filter(item =>
+  //     item.toLowerCase().includes(normalizedFilter)
+  //   );
+  return { contacts: state.contacts.items }
+};
+
+const mapDispatchToProps = dispatch => ({
+  onDeleteContact: (id) => dispatch(actions.deleteContact(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contacts);

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { AddButton } from "./Form.styled";
+import { connect } from "react-redux";
+import actions from "../../redux/actions";
 
-export default function Form(props) {
+function Form({onSubmit, onValidate}) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
@@ -18,23 +20,24 @@ export default function Form(props) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const onHandleSubmit = (e) => {
     e.preventDefault();
-    props.onSubmit({ name, number });
+    onSubmit(name, number);
     setName("");
     setNumber("");
   };
 
-  const disabledButton = () => {
-    if (!props.onValidate(name)) {
-      alert(`${name} is already in contacts`);
-      setName("");
-      setNumber("");
-    }
-  };
+  // const disabledButton = () => {
+  //   if (!onValidate(name)) {
+  //     alert(`${name} is already in contacts`);
+  //     setName("");
+  //     setNumber("");
+  //   }
+  // }; ---- второй пропс в форм onChange={disabledButton}
+   
 
   return (
-    <form onSubmit={handleSubmit} onChange={disabledButton}>
+    <form onSubmit={onHandleSubmit} >
       <label>
         name
         <input
@@ -63,3 +66,10 @@ export default function Form(props) {
     </form>
   );
 }
+ 
+
+
+const mapDispatchToProps = dispatch => ({
+  onSubmit: ( name, number) => dispatch(actions.addContact( name, number))
+})
+export default connect(null, mapDispatchToProps)(Form);
