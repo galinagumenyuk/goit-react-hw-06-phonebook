@@ -2,10 +2,14 @@ import { useState } from "react";
 import { AddButton } from "./Form.styled";
 import { connect } from "react-redux";
 import actions from "../../redux/actions";
+import PropTypes from 'prop-types';
+ import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 function Form({onSubmit, contacts}) {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+
 
   const handleChange = (e) => {
     switch (e.target.name) {
@@ -23,14 +27,14 @@ function Form({onSubmit, contacts}) {
   const onHandleSubmit = (e) => {
     e.preventDefault();
     if (contacts.find(contact => contact.name === name)) {
-      alert(`Contact ${name} is already exists`)
+      toast(`Contact ${name} is already exists`);
       setName("");
       setNumber("");
       return;
     }
     onSubmit(name, number);
     setName("");
-    setNumber("");
+    setNumber("");  
   };
   
 
@@ -61,10 +65,19 @@ function Form({onSubmit, contacts}) {
         />
       </label>
       <AddButton type="submit"> Add contact </AddButton>
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover />
     </form>
   );
 }
-
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: (name, number) => dispatch(actions.addContact(name, number)),
@@ -72,4 +85,9 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = (state) => ({contacts: state.contacts.items})
 
-export default connect( mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
+
+Form.propTypes = {
+  contacts: PropTypes.array,
+  onSubmit: PropTypes.func,
+};

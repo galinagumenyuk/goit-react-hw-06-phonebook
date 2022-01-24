@@ -1,16 +1,23 @@
 import styled from "@emotion/styled";
 
 export const AddButton = styled.button`
-width: 85px;
+width: 120px;
   display: block;
-  margin-top:5px;
-  padding: 5px;
-  border-radius: 4px
-  border: 1px
+  margin-top:10px;
+  padding: 10px;
+  border: none;
 
-  color: #708090;
+  color: black;
   font-family: "Times New Roman";
-  font-size: 14px;
-  box-shadow: 1px 1px 2px #000000;
+  font-size: 18px;
+  box-shadow: 1px 1px 2px #45B39D;
   cursor: pointer;
+  background-color:  #D0ECE7;
+
+   &:hover{
+      background-color:  #A2D9CE ;
+   }
+    &:focus{
+      background-color:  #A2D9CE ;
+   }
 `;

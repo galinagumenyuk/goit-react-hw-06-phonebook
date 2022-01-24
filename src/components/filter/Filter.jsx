@@ -2,6 +2,7 @@ import React from "react";
 import { FilterTitle } from "./Filter.styled";
 import { connect } from "react-redux";
 import actions from "../../redux/actions";
+import PropTypes from 'prop-types';
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -20,3 +21,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+
+Filter.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};

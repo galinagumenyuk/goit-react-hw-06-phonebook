@@ -2,6 +2,7 @@ import React from "react";
 import { ContactItem, DeleteButton, Contact } from "./Contacts.styled";
 import { connect } from "react-redux";
 import actions from "../../redux/actions";
+import PropTypes from 'prop-types';
 
 const Contacts = ({ contacts, onDeleteContact }) => {
   return (
@@ -36,3 +37,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
+
+Contacts.propTypes = {
+  contacts: PropTypes.array,
+  onDeleteContact: PropTypes.func,
+};

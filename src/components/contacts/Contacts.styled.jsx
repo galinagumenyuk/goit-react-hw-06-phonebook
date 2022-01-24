@@ -5,24 +5,32 @@ export const ContactItem = styled.ul`
 `;
 
 export const DeleteButton = styled.button`
-width: 40 px;
- padding: 1px;
- margin-left: 10px;
-  border-radius: 4px
-  border: 1px
-
-  color: #708090;
-  font-family: "Times New Roman";
-  font-size: 11px;
+    padding: 2px 4px;
+    margin-left: 10px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    border-radius: 4px;
   cursor: pointer;
+  &:hover{
+      background-color:  #A2D9CE ;
+   }
+    &:focus{
+      background-color:  #A2D9CE ;
+   }
 `;
 
 export const Contact = styled.li`
   list-style-type: none;
   font-family: "Times New Roman";
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 
   span + span {
-    margin-left: 15px;
+    margin-left: 10px;
+  }
+  span{
+    font-size: 22px;
   }
 `;
