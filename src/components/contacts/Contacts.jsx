@@ -23,12 +23,12 @@ const Contacts = ({ contacts, onDeleteContact }) => {
 };
 
 const mapStateToProps = state => {
-  // const { filter, items } = state.contacts;
-  // const normalizedFilter = filter.toLowerCase();
-  // const filteredContacts = items.filter(item =>
-  //     item.toLowerCase().includes(normalizedFilter)
-  //   );
-  return { contacts: state.contacts.items }
+  const { filter, items } = state.contacts;
+  const normalizedFilter = filter.toLowerCase();
+  const filteredContacts = items.filter(item =>
+      item.name.toLowerCase().includes(normalizedFilter)
+    );
+  return { contacts: filteredContacts };
 };
 
 const mapDispatchToProps = dispatch => ({
