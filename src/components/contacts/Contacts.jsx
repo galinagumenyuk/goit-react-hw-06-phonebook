@@ -1,10 +1,23 @@
 import React from "react";
 import { ContactItem, DeleteButton, Contact } from "./Contacts.styled";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import actions from "../../redux/actions";
-import PropTypes from 'prop-types';
 
-const Contacts = ({ contacts, onDeleteContact }) => {
+const Contacts = () => {
+
+  const dispatch = useDispatch();
+
+  const contacts = useSelector(state => {
+    const { filter, items } = state.contacts;
+    const normalizedFilter = filter.toLowerCase();
+    const filteredContacts = items.filter(item =>
+      item.name.toLowerCase().includes(normalizedFilter)
+    );
+    return filteredContacts;
+  })
+
+  const onDelete = (id) => dispatch(actions.deleteContact(id));
+
   return (
     <ContactItem>
       {contacts.map((contact) => (
@@ -13,7 +26,7 @@ const Contacts = ({ contacts, onDeleteContact }) => {
           <span>{contact.number}</span>
           <DeleteButton
             type="button"
-            onClick={() => onDeleteContact(contact.id)}
+            onClick={onDelete}
           >
             Delete
           </DeleteButton>
@@ -23,22 +36,17 @@ const Contacts = ({ contacts, onDeleteContact }) => {
   );
 };
 
-const mapStateToProps = state => {
-  const { filter, items } = state.contacts;
-  const normalizedFilter = filter.toLowerCase();
-  const filteredContacts = items.filter(item =>
-      item.name.toLowerCase().includes(normalizedFilter)
-    );
-  return { contacts: filteredContacts };
-};
+// const mapStateToProps = state => {
+//   const { filter, items } = state.contacts;
+//   const normalizedFilter = filter.toLowerCase();
+//   const filteredContacts = items.filter(item =>
+//       item.name.toLowerCase().includes(normalizedFilter)
+//     );
+//   return { contacts: filteredContacts };
+// };
 
-const mapDispatchToProps = dispatch => ({
-  onDeleteContact: (id) => dispatch(actions.deleteContact(id))
-});
+// const mapDispatchToProps = dispatch => ({
+//   onDeleteContact: (id) => dispatch(actions.deleteContact(id))
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Contacts);
-
-Contacts.propTypes = {
-  contacts: PropTypes.array,
-  onDeleteContact: PropTypes.func,
-};
+export default Contacts;

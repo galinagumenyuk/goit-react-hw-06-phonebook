@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { AddButton } from "./Form.styled";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import actions from "../../redux/actions";
-import PropTypes from 'prop-types';
- import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Form({onSubmit, contacts}) {
+function Form() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
+  const contacts = useSelector(state => state.contacts.items);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     switch (e.target.name) {
@@ -23,6 +24,8 @@ function Form({onSubmit, contacts}) {
         return;
     }
   };
+
+  const onSubmit = () => { dispatch(actions.addContact(name, number)) };
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
@@ -79,15 +82,5 @@ function Form({onSubmit, contacts}) {
   );
 }
 
-const mapDispatchToProps = dispatch => ({
-  onSubmit: (name, number) => dispatch(actions.addContact(name, number)),
-})
+export default Form;
 
-const mapStateToProps = (state) => ({contacts: state.contacts.items})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
-
-Form.propTypes = {
-  contacts: PropTypes.array,
-  onSubmit: PropTypes.func,
-};

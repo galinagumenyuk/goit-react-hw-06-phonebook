@@ -1,28 +1,20 @@
 import React from "react";
 import { FilterTitle } from "./Filter.styled";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import actions from "../../redux/actions";
-import PropTypes from 'prop-types';
 
-const Filter = ({ value, onChange }) => {
+
+const Filter = () => {
+  const value = useSelector(state => state.contacts.filter);
+  const dispatch = useDispatch();
+
   return (
     <div>
       <FilterTitle>Find contacts by name</FilterTitle>
-      <input type="text" value={value} onChange={onChange}></input>
+      <input type="text" value={value} onChange={(e)=> dispatch(actions.filterContact(e.target.value))}></input>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  value: state.contacts.filter
-});
-const mapDispatchToProps = dispatch => ({
-  onChange: (e)=> dispatch(actions.filterContact(e.target.value))
-});
+export default Filter;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
-
-Filter.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};
