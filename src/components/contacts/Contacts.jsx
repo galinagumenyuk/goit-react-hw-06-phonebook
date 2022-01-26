@@ -26,7 +26,7 @@ const Contacts = () => {
           <span>{contact.number}</span>
           <DeleteButton
             type="button"
-            onClick={onDelete}
+            onClick={()=>onDelete(contact.id)}
           >
             Delete
           </DeleteButton>
@@ -35,18 +35,5 @@ const Contacts = () => {
     </ContactItem>
   );
 };
-
-// const mapStateToProps = state => {
-//   const { filter, items } = state.contacts;
-//   const normalizedFilter = filter.toLowerCase();
-//   const filteredContacts = items.filter(item =>
-//       item.name.toLowerCase().includes(normalizedFilter)
-//     );
-//   return { contacts: filteredContacts };
-// };
-
-// const mapDispatchToProps = dispatch => ({
-//   onDeleteContact: (id) => dispatch(actions.deleteContact(id))
-// });
 
 export default Contacts;
